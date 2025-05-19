@@ -5,7 +5,7 @@ with tgb.Page() as home_page:
         with tgb.part(class_name="container card"):
             tgb.navbar()
         with tgb.part():
-            tgb.text("# Välkommen till YH dashboard 2024", mode="md")
+            tgb.text("# Välkommen till YH Home 2024", mode="md")
             tgb.text(
                 """
             YH Dashboard 2024 är ett interaktivt verktyg som visualiserar
@@ -13,5 +13,5 @@ with tgb.Page() as home_page:
             """
             )
             tgb.button(
-                "Dashboard",
+                "Home",
             )
