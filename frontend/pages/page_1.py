@@ -14,7 +14,6 @@ slider_val_one = 5
 anordnare_list = []
 anordnare_value = ""
 
-
 utbildning_list = ["Välj områrde"] + df_kurser["Utbildningsområde"].unique().tolist()
 utbildning_value = "Välj område"
 
@@ -75,7 +74,6 @@ with tgb.Page() as page_1:
                 tgb.chart(figure="{top_approved_area}")
         with tgb.part():
                 tgb.text("## KPI efter anordnare 2024", mode="md")
-                tgb.text("Beskrivande text")
         with tgb.layout(columns="1 3"):
                 with tgb.part(class_name="container card") as column_chart:
                     tgb.text("Utbildningsområde")

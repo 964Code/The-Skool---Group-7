@@ -81,9 +81,10 @@ def extract_kpis_kurser(df_filtered):
 
     return {
         "antal_kurser": antal_kurser,
-        "antal_beviljade_kurser": antal_beviljade_kurser,
-        "antal_beviljade_platser": antal_beviljade_platser,
-        "godkännandeprocent": round(godkännandeprocent, 2),
+        "antal_beviljade_kurser": int(antal_beviljade_kurser),
+        "antal_beviljade_platser": int(antal_beviljade_platser),
+        "godkännandeprocent": int(godkännandeprocent) if godkännandeprocent == int(godkännandeprocent) else round(godkännandeprocent, 2),
+
     }
 
 
