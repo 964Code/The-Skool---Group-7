@@ -11,14 +11,14 @@ kpi_df = generate_kpi_df(df_kurser)
 # Variables & Setters
 slider_val_one = 5
 
-anordnare_list = ["Visa alla"] + df_kurser["Anordnare namn"].unique().tolist()
-anordnare_value = "Visa alla"
+anordnare_list = []
+anordnare_value = ""
 
-utbildning_list = ["Visa alla"] + df_kurser["Utbildningsområde"].unique().tolist()
+
+utbildning_list = ["Välj områrde"] + df_kurser["Utbildningsområde"].unique().tolist()
 utbildning_value = "Välj område"
 
-kpi_list_filtered = []
-anordnare_namn ='Ingen vald'
+anordnare_namn = ""
 total_kurser = 0
 antal_beviljade_kurser = 0
 beviljade_platser = 0
@@ -35,16 +35,11 @@ def slider_on_change(state):
     
 def on_filter_button_click(state):
     state.anordnare_namn = state.anordnare_value
-    
+
     filtered_kpi = filter_kpi_data(kpi_df, utbildningsområde=state.utbildning_value, skola=state.anordnare_value)
 
-    print("FILTER BUTTON CLICKED")
-    print("Selected anordnare:", state.anordnare_namn)
-    print("Filtered rows:", len(filtered_kpi))
-    print("Columns:", filtered_kpi.columns.tolist())
-
     if filtered_kpi.empty:
-        print("No data found for this filter!")
+        print("No data found for this filter")
     else:
         kpis = extract_kpis_kurser(filtered_kpi)
         print("Extracted KPIs:", kpis)
@@ -54,13 +49,15 @@ def on_filter_button_click(state):
         state.beviljade_platser = kpis["antal_beviljade_platser"]
         state.procent_beviljade = kpis["godkännandeprocent"]
 
-def on_anordnare_change(state):
-    if state.anordnare_value == "Visa alla":
-        state.utbildning_list = ["Visa alla"] + df_kurser["Utbildningsområde"].unique().tolist()
+
+def on_utbildning_change(state):
+    if state.utbildning_value == "Visa alla" or state.utbildning_value == "Välj område":
+        state.anordnare_list = []
+        state.anordnare_value = ""
     else:
-        filtered = df_kurser[df_kurser["Anordnare namn"] == state.anordnare_value]
-        state.utbildning_list = ["Visa alla"] + filtered["Utbildningsområde"].unique().tolist()
-    state.utbildning_value = "Visa alla"  # Optionally reset selection
+        filtered = df_kurser[df_kurser["Utbildningsområde"] == state.utbildning_value]
+        state.anordnare_list = ["Visa alla"] + filtered["Anordnare namn"].unique().tolist()
+        state.anordnare_value = "Visa alla"  # Optionally reset selection
     
 with tgb.Page() as page_1:
     with tgb.part(class_name="container card"):
@@ -81,14 +78,19 @@ with tgb.Page() as page_1:
                 tgb.text("Beskrivande text")
         with tgb.layout(columns="1 3"):
                 with tgb.part(class_name="container card") as column_chart:
-                    tgb.text("Skola / Anordnare")
-                    tgb.selector("{anordnare_value}", lov=anordnare_list, dropdown=True, multiple=False, on_change=on_anordnare_change)
                     tgb.text("Utbildningsområde")
-                    tgb.selector("{utbildning_value}", lov="{utbildning_list}", dropdown=True, multiple=False)
+                    tgb.selector("{utbildning_value}", lov=utbildning_list, dropdown=True, multiple=False, on_change=on_utbildning_change,)
+                    tgb.text("Skola / Anordnare")
+                    tgb.selector(
+                                "{anordnare_value}",
+                                lov="{anordnare_list}",
+                                dropdown=True,
+                                multiple=False,
+
+                            )
                     tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
                      
                 with tgb.part(class_name="") as column_chart:
-                        tgb.text("### Anordnares namn: {anordnare_namn}", mode="md")
                         tgb.text("### Totalt antal kurser: {total_kurser}", mode="md")
                         tgb.text("### Totalt beviljade kurser: {antal_beviljade_kurser}", mode="md")
                         tgb.text("### Beviljade platser: {beviljade_platser}", mode="md")
