@@ -20,9 +20,9 @@ df_kurser = pd.read_excel(
     ])
 
 
-#? DF created, if data does not load, try with new terminal. 
 #! Query, if not complex could be fixed with pandas. 
 
+# Regular DF
 def approved_courses_filter(df):
     approved_courses = duckdb.query(
         """--sql
@@ -37,7 +37,54 @@ def approved_courses_filter(df):
     ).df()
     return approved_courses
 
+#----------------------------------------------
+
+# Regular DF
+def generate_kpi_df(df):
+    kpi_df = duckdb.query(
+        """--sql
+            SELECT
+                "Anordnare namn",
+                "Utbildningsområde",
+                COUNT(*) AS total_kurser,
+                SUM(CASE WHEN Beslut = 'Beviljad' THEN 1 ELSE 0 END) AS beviljade_kurser,
+                SUM(CASE WHEN Beslut = 'Beviljad' THEN "Totalt antal beviljade platser" ELSE 0 END) AS beviljade_platser,
+                ROUND(100.0 * SUM(CASE WHEN Beslut = 'Beviljad' THEN 1 ELSE 0 END) / COUNT(*), 2) AS godkännandeprocent
+            FROM df
+            GROUP BY "Anordnare namn", "Utbildningsområde",
+            ORDER BY "Anordnare namn" DESC
+        """
+    ).df()
+
+    return kpi_df
+
+def filter_kpi_data(df_kpi, utbildningsområde=None, skola=None):
+    df_filtered = df_kpi.copy()
+
+    if utbildningsområde:
+        df_filtered = df_filtered[df_filtered["Utbildningsområde"] == utbildningsområde]
+
+    if skola:
+        df_filtered = df_filtered[df_filtered["Anordnare namn"] == skola]
+
+    return df_filtered.reset_index(drop=True)
+
+def extract_kpis_kurser(df_filtered):
+
+    # Aggregate over all rows in case there are multiple utbildningsområden or skolor
+    antal_kurser = df_filtered["total_kurser"].sum()
+    antal_beviljade_kurser = df_filtered["beviljade_kurser"].sum()
+    antal_beviljade_platser = df_filtered["beviljade_platser"].sum()
+    godkännandeprocent = (
+        (antal_beviljade_kurser / antal_kurser) * 100 if antal_kurser > 0 else 0.0
+    )
+
+    return {
+        "antal_kurser": antal_kurser,
+        "antal_beviljade_kurser": antal_beviljade_kurser,
+        "antal_beviljade_platser": antal_beviljade_platser,
+        "godkännandeprocent": round(godkännandeprocent, 2),
+    }
 
 
-
-
+#----------------------------------------------
