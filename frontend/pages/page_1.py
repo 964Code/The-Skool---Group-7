@@ -53,6 +53,14 @@ def on_filter_button_click(state):
         state.antal_beviljade_kurser = kpis["antal_beviljade_kurser"]
         state.beviljade_platser = kpis["antal_beviljade_platser"]
         state.procent_beviljade = kpis["godkännandeprocent"]
+
+def on_anordnare_change(state):
+    if state.anordnare_value == "Visa alla":
+        state.utbildning_list = ["Visa alla"] + df_kurser["Utbildningsområde"].unique().tolist()
+    else:
+        filtered = df_kurser[df_kurser["Anordnare namn"] == state.anordnare_value]
+        state.utbildning_list = ["Visa alla"] + filtered["Utbildningsområde"].unique().tolist()
+    state.utbildning_value = "Visa alla"  # Optionally reset selection
     
 with tgb.Page() as page_1:
     with tgb.part(class_name="container card"):
@@ -73,11 +81,11 @@ with tgb.Page() as page_1:
                 tgb.text("Beskrivande text")
         with tgb.layout(columns="1 3"):
                 with tgb.part(class_name="container card") as column_chart:
-                     tgb.text("Skola / Anordnare")
-                     tgb.selector("{anordnare_value}", lov=anordnare_list, dropdown=True, multiple=False)
-                     tgb.text("Utbildningsområde")
-                     tgb.selector("{utbildning_value}", lov=utbildning_list, dropdown=True, multiple=False)
-                     tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
+                    tgb.text("Skola / Anordnare")
+                    tgb.selector("{anordnare_value}", lov=anordnare_list, dropdown=True, multiple=False, on_change=on_anordnare_change)
+                    tgb.text("Utbildningsområde")
+                    tgb.selector("{utbildning_value}", lov="{utbildning_list}", dropdown=True, multiple=False)
+                    tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
                      
                 with tgb.part(class_name="") as column_chart:
                         tgb.text("### Anordnares namn: {anordnare_namn}", mode="md")
@@ -85,6 +93,6 @@ with tgb.Page() as page_1:
                         tgb.text("### Totalt beviljade kurser: {antal_beviljade_kurser}", mode="md")
                         tgb.text("### Beviljade platser: {beviljade_platser}", mode="md")
                         tgb.text("### Beviljandegrad: {procent_beviljade}", mode="md")
-                
+
 
 
