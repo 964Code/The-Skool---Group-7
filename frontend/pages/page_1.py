@@ -74,6 +74,9 @@ with tgb.Page() as page_1:
                 tgb.chart(figure="{top_approved_area}")
         with tgb.part():
                 tgb.text("## KPI efter anordnare 2024", mode="md")
+                tgb.chart(figure="{bar}")
+        with tgb.part():
+                tgb.text("## KPI efter anordnare 2024", mode="md")
         with tgb.layout(columns="1 3"):
                 with tgb.part(class_name="container card") as column_chart:
                     tgb.text("Utbildningsområde")
@@ -90,9 +93,9 @@ with tgb.Page() as page_1:
                      
                 with tgb.part(class_name="") as column_chart:
                         tgb.text("### Totalt antal kurser: {total_kurser}", mode="md")
-                        tgb.text("### Totalt beviljade kurser: {antal_beviljade_kurser}", mode="md")
+                        tgb.text("### Beviljade kurser: {antal_beviljade_kurser}", mode="md")
                         tgb.text("### Beviljade platser: {beviljade_platser}", mode="md")
-                        tgb.text("### Beviljandegrad: {procent_beviljade}", mode="md")
+                        tgb.text("### Beviljandegrad: {procent_beviljade}%", mode="md")
 
 
 
