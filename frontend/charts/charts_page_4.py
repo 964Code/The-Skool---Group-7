@@ -38,13 +38,13 @@ def skol_beslut_bar(grupperad_df, år, antal=10, highlight=None):
 
     fig.update_layout(
         barmode='stack',
-        title=f'Beviljade och avslagna utbildningar per område ({år})',
+        title=f'Beviljade och avslagna utbildningar per utbildningsanordnare ({år})',
         xaxis_title='Antal',
         yaxis_title='Skola',
         template='simple_white',
         showlegend=False,
         yaxis=dict(autorange="reversed"),
-        title_font=dict(family="Times New Roman", size=30, weight="bold"),
+        title_font=dict(family="Times New Roman", size=25, weight="bold"),
         font=dict(family="Times New Roman", size=15),
         yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold"),
         annotations=[dict(
