@@ -3,8 +3,7 @@ from backend.page_3.data_processing import df_stud
 from frontend.charts.charts_page_3 import line_plot_stud
 
 
-area_list = df_stud.columns.to_list()[1:] # Removed year
-print(area_list)
+area_list = df_stud.columns.to_list()[1:]
 
 selected_area = ["Totalt", "Data/It"]
 line_graph_stud = line_plot_stud(df_stud, selected_area)
@@ -17,7 +16,7 @@ with tgb.Page() as page_3:
         with tgb.part(class_name="container card"):
             tgb.navbar()
         with tgb.part():
-            tgb.text("# Page 3", mode="md")
+            tgb.text("# Analyser om ansökningsomgång för studerande", mode="md")
             tgb.selector(
                 lov=area_list,
                 dropdown=True,
@@ -26,4 +25,3 @@ with tgb.Page() as page_3:
                 on_change=on_area_change,
             )
             tgb.chart(figure="{line_graph_stud}")
-            tgb.button("Page_3")
