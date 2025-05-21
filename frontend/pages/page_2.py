@@ -59,7 +59,7 @@ with tgb.Page() as page_2:
                      tgb.text("Välj år som gafen ska visa")
                      tgb.selector("{value}", lov="2024;2023;2022",dropdown=True)
                      tgb.text("Välj utbildningsområde")
-                     tgb.selector("{selected_utbildning}", lov=utbildningar, dropdown=True, multiple=False)
+                     tgb.selector("{selected_utbildning}", lov=utbildningar, dropdown=True, multiple=False, filter=True)
                      tgb.slider(value="{value_slider}", min=1, max=15, continuous=False)
                      tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
                 with tgb.part(class_name="") as column_chart:
