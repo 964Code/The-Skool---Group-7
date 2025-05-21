@@ -1,4 +1,12 @@
 import taipy.gui.builder as tgb
+from backend.page_3.data_processing import df_stud
+from frontend.charts.charts_page_3 import line_plot_stud
+
+
+area_list = df_stud.columns.to_list()
+
+selected_area = ["Totalt", "Data/It"]
+line_graph_stud = line_plot_stud(df_stud, selected_area)
 
 with tgb.Page() as page_3:
     with tgb.part(class_name="container card"):
@@ -6,11 +14,8 @@ with tgb.Page() as page_3:
             tgb.navbar()
         with tgb.part():
             tgb.text("# Page 3", mode="md")
-            tgb.text(
-                """
-                Page_3 text. 
-            """
-            )
+            tgb.selector()
+            tgb.chart(figure="{line_graph_stud}")
             tgb.button(
                 "Page_3",
             )
