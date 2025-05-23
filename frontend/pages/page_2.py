@@ -75,24 +75,3 @@ with tgb.Page() as page_2:
                      tgb.chart(figure="{map_approved}")
                 with tgb.part(class_name="") as column_chart:
                      tgb.chart(figure="{map_rejected}")
-                    
-# with tgb.Page() as page_2:
-#     with tgb.part(class_name="container card"):
-#         with tgb.part(class_name="container card"):
-#             tgb.navbar()
-#         with tgb.part():
-#             tgb.text("# Analyser om ansökningsomgång för Program", mode="md")
-#             with tgb.layout(columns="1 3"):
-#                 with tgb.part(class_name="") as column_chart:
-#                      tgb.text("Välj år som gafen ska visa")
-#                      tgb.selector("{value}", lov="2024;2023;2022",dropdown=True ,on_change=on_value_change)
-#                 with tgb.part(class_name="") as column_chart:
-#                      tgb.text("Välj utbildningsområde")
-#                      tgb.selector("{selected_utbildning}", lov=utbildningar, dropdown=True, multiple=True)
-#                 with tgb.part(class_name="") as column_chart:
-#                     tgb.text("Välj utbildningsområde")
-#         with tgb.part(class_name="") as column_chart:
-#             tgb.chart(figure="{antal_beslut_df}")
-#         with tgb.part(class_name="") as column_chart:
-#             tgb.text("## Antal beviljningsgrad", mode="md")
-#             tgb.chart(figure="{antal_beviljadegrad_df}")
