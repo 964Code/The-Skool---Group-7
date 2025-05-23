@@ -159,7 +159,13 @@ def bar_filter_approved_areas(df, number=0):
         marker=dict(color="rgba(74, 140, 232, 1)")
     )
 
-    fig.update_layout(yaxis={"categoryorder": "total ascending"}, plot_bgcolor = "white")
+    fig.update_layout(
+        yaxis={"categoryorder": "total ascending"},
+        plot_bgcolor = "white",
+        title_font=dict(family="Times New Roman", size=30, weight="bold", color="black",),
+        font=dict(family="Times New Roman", size=15, color="black",),
+        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold", color="black"),
+        )
 
     return fig
 
