@@ -12,6 +12,8 @@ kpi_df = generate_kpi_df(df_kurser)
 # Variables & Setters
 slider_val_one = 5
 
+approved_class = "kpi-value"
+
 anordnare_list = []
 anordnare_value = ""
 
@@ -56,6 +58,8 @@ def on_filter_button_click(state):
         state.beviljade_platser = kpis["antal_beviljade_platser"]
         state.procent_beviljade = kpis["godkännandeprocent"]
 
+    state.approved_class = "kpi-trend_positve" if state.antal_beviljade_kurser > 0 else "kpi-trend_negative"
+
 
 def on_utbildning_change(state):
     if state.utbildning_value == "Visa alla" or state.utbildning_value == "Välj område":
@@ -66,6 +70,7 @@ def on_utbildning_change(state):
         state.anordnare_list = ["Visa alla"] + filtered["Anordnare namn"].unique().tolist()
         state.anordnare_value = "Visa alla"  # Optionally reset selection
 
+    
 def on_button_click(state: State):
     slider_on_change(state)
 
@@ -99,13 +104,13 @@ with tgb.Page() as page_1:
                     tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
         with tgb.layout(class_name="kpi-wrapper",):            
             with tgb.part(class_name="kpi-container"):
-                 tgb.text("{total_kurser}",class_name="kpi-value")
-                 tgb.text("Totalt antal kurser",class_name="kpi-title")
+                 tgb.text("{total_kurser}",class_name="kpi-trend_natural")
+                 tgb.text("Totalt ansökta kurser",class_name="kpi-title")
             with tgb.part(class_name="kpi-container "):
-                 tgb.text("{antal_beviljade_kurser}",class_name="kpi-value")
+                 tgb.text("{antal_beviljade_kurser}",class_name="{approved_class}")
                  tgb.text("Beviljade kurser",class_name="kpi-title")
             with tgb.part(class_name="kpi-container "):
-                 tgb.text("{beviljade_platser}", class_name="kpi-value")
+                 tgb.text("{beviljade_platser}", class_name="{approved_class}")
                  tgb.text("Beviljade platser",class_name="kpi-title")
             with tgb.part(class_name="kpi-container"):
                  tgb.text(" {procent_beviljade}%", class_name="kpi-value")
