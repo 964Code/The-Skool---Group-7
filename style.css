@@ -27,11 +27,24 @@
     color: #2b2b2b;
 }
 
-.kpi-trend {
-    font-size: 14px;
+.kpi-trend_positve {
+    font-size: 32px;
     color: #4caf50; /* Use red for negative trend */
-    margin-top: 6px;
+    font-weight: bold;
 }
+
+.kpi-trend_negative {
+    font-size: 32px;
+    color: #c82222; /* Use red for negative trend */
+    font-weight: bold;
+}
+
+.kpi-trend_natural {
+    font-size: 32px;
+    color: #4a8ce8; /* Use red for negative trend */
+    font-weight: bold;
+}
+
 
 .kpi-wrapper {
     display: flex;

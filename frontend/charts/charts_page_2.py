@@ -2,28 +2,28 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-def antal_beslut_bar(resultat_df, år, antal=10, highlight=None):
-    resultat = resultat_df[resultat_df["År"] == år].sort_values("Beviljade", ascending=False).head(antal)
+def decision_count_bar(df, year, count=10, highlight=None):
+    resultat = df[df["År"] == year].sort_values("Beviljade", ascending=False).head(count)
 
     fig = go.Figure()
 
-    beviljade_colors = []
-    avslag_colors = []
+    approved_colors = []
+    rejected_colors = []
 
     for område in resultat["Utbildningsområde"]:
         if highlight is None or highlight == "Visa alla" or område == highlight:
-            beviljade_colors.append("rgba(74, 140, 232, 1)") 
-            avslag_colors.append("rgba(211, 211, 211, 1)")
+            approved_colors.append("rgba(74, 140, 232, 1)") 
+            rejected_colors.append("rgba(211, 211, 211, 1)")
         else:
-            beviljade_colors.append("rgba(74, 140, 232, 0.3)") 
-            avslag_colors.append("rgba(211, 211, 211, 0.3)")
+            approved_colors.append("rgba(74, 140, 232, 0.3)") 
+            rejected_colors.append("rgba(211, 211, 211, 0.3)")
 
     fig.add_trace(go.Bar(
         y=resultat['Utbildningsområde'],
         x=resultat['Beviljade'],
         name='Beviljade',
         orientation='h',
-        marker=dict(color=beviljade_colors),
+        marker=dict(color=approved_colors),
         hovertemplate="<b>%{y}</b><br> Beviljade <br> Antal beslut: %{x} <br><extra></extra>"
     ))
 
@@ -32,13 +32,13 @@ def antal_beslut_bar(resultat_df, år, antal=10, highlight=None):
         x=resultat['Avslag'],
         name='Avslag',
         orientation='h',
-        marker=dict(color=avslag_colors),
+        marker=dict(color=rejected_colors),
         hovertemplate="<b>%{y}</b><br> Avslag <br> Antal beslut: %{x} <br><extra></extra>"
     ))
 
     fig.update_layout(
         barmode='stack',
-        title=f'Beviljade och avslagna utbildningar per område ({år})',
+        title=f'Beviljade och avslagna utbildningar per område ({year})',
         xaxis_title='Antal',
         yaxis_title='Utbildningsområde',
         template='simple_white',
@@ -62,25 +62,25 @@ def antal_beslut_bar(resultat_df, år, antal=10, highlight=None):
 
 
 
-def beviljadegrad_bar(beviljandegrad_df, år,antal=10,highlight=None):
-    resultat = beviljandegrad_df[beviljandegrad_df["År"] == år].sort_values("beviljandegrad (%)", ascending=False).head(antal)
+def approval_rate_bar(df, year,count=10,highlight=None):
+    resultat = df[df["År"] == year].sort_values("beviljandegrad (%)", ascending=False).head(count)
     
-    beviljade_colors = []
+    approved_colors = []
 
     for område in resultat["Utbildningsområde"]:
         if highlight is None or highlight == "Visa alla" or område == highlight:
-            beviljade_colors.append("rgba(74, 140, 232, 1)") 
+            approved_colors.append("rgba(74, 140, 232, 1)") 
         else:
-            beviljade_colors.append("rgba(74, 140, 232, 0.3)") 
+            approved_colors.append("rgba(74, 140, 232, 0.3)") 
 
     fig = px.bar(
         resultat,
         y=resultat["Utbildningsområde"],
         x=resultat["beviljandegrad (%)"],
         barmode="group",
-        title=f"Beviljandegrad per utbildningsområde och år ({år})",
+        title=f"Beviljandegrad per utbildningsområde och år ({year})",
     )
-    fig.update_traces(marker=dict(color=beviljade_colors),)
+    fig.update_traces(marker=dict(color=approved_colors),)
     
     fig.update_layout(
         coloraxis_showscale=False,
@@ -113,8 +113,8 @@ def beviljadegrad_bar(beviljandegrad_df, år,antal=10,highlight=None):
 
 import plotly.graph_objects as go
 
-def map_beviljade_utbildningar(df_region_total,json_data,region_code_map,log_approved, år):
-    resultat = df_region_total[df_region_total["År"] == år].sort_values("Beviljade", ascending=False).head(10)
+def map_approved_programs(df,json_data,region_code_map,log_approved, year):
+    resultat = df[df["År"] == year].sort_values("Beviljade", ascending=False).head(10)
     fig = go.Figure(
         go.Choroplethmapbox(
             geojson=json_data,
@@ -137,10 +137,10 @@ def map_beviljade_utbildningar(df_region_total,json_data,region_code_map,log_app
         margin=dict(r=0, t=50,l=0,b=0),
             title=dict(
             text=f"""
-                    <b>Antal beviljade</b>
+                    Antal<b> BEVILJADE</b>
                     <br>utbildningar per län
                     <br>inom YH i Sverige för 
-                    <br>omgång {år}. Ju mörkare 
+                    <br>omgång <b>{year}</b>. Ju mörkare 
                     <br>blå färg, desto fler
                     <br>beviljade utbildningar
                     <br>
@@ -150,7 +150,7 @@ def map_beviljade_utbildningar(df_region_total,json_data,region_code_map,log_app
                     <br>3. Skåne""",
             x=0.06,
             y=0.75,
-            font=dict(size=14),)
+            font=dict(size=15,family="Times New Roman"))
     )
 
 
@@ -158,13 +158,13 @@ def map_beviljade_utbildningar(df_region_total,json_data,region_code_map,log_app
 
 import plotly.graph_objects as go
 
-def map_avslag_utbildningar(df_region_total, år,json_data,region_code_map,log_avslag):
-    resultat = df_region_total[df_region_total["År"] == år].sort_values("Avslag", ascending=False).head(10)
+def map_rejected_programs(df, year,json_data,region_code_map,log_rejected):
+    resultat = df[df["År"] == year].sort_values("Avslag", ascending=False).head(10)
     fig = go.Figure(
         go.Choroplethmapbox(
             geojson=json_data,
             locations=region_code_map,
-            z= log_avslag,
+            z= log_rejected,
             featureidkey="properties.ref:se:länskod",
             colorscale="reds",
             showscale=False,
@@ -182,10 +182,10 @@ def map_avslag_utbildningar(df_region_total, år,json_data,region_code_map,log_a
         margin=dict(r=0, t=50,l=0,b=0),
             title=dict(
             text=f"""
-                    <b>Antal nekade</b>
+                    Antal<b> NEKADE</b>
                     <br>utbildningar per län
                     <br>inom YH i Sverige för 
-                    <br>omgång {år}. Ju mörkare 
+                    <br>omgång <b>{year}</b>. Ju mörkare 
                     <br>röd färg, desto fler
                     <br>nekade utbildningar
                     <br>
@@ -195,7 +195,7 @@ def map_avslag_utbildningar(df_region_total, år,json_data,region_code_map,log_a
                     <br>3. Skåne""",
             x=0.06,
             y=0.75,
-            font=dict(size=14),)
+            font=dict(size=15,family="Times New Roman"),)
     )
 
 
