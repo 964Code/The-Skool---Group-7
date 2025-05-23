@@ -1,20 +1,21 @@
 import taipy.gui.builder as tgb
 from taipy.gui import State
-from backend.page_4.data_processing import grupperad_df
+from backend.page_4.data_processing import grupperad_df, skol_resultat_all
 from frontend.charts.charts_page_4 import skol_beslut_bar
 
 value = 2024
 value_slider = 10
 skolor = ["Visa alla"] + grupperad_df["StandardSkola"].unique().tolist()
 selected_utbildning = "Visa alla"
+
 total_applys = 0
 total_approved = 0
 total_procent = 0
 total_rejected = 0
 
 # KPI's 
-def kpi_exract(grupperad_df,utbildning ,år):
-    filtered_df = grupperad_df[(grupperad_df["StandardSkola"] == utbildning) & (grupperad_df["År"] == år)]
+def kpi_exract(df,utbildning ,år):
+    filtered_df = df[(df["StandardSkola"] == utbildning) & (df["År"] == år)]
     total_approved = filtered_df["Beviljade"].sum()
     total_rejected = filtered_df["Avslag"].sum()
     total_applys = total_approved + total_rejected

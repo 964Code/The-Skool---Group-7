@@ -2,8 +2,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-def skol_beslut_bar(grupperad_df, år, antal=10, highlight=None):
-    resultat = grupperad_df[grupperad_df["År"] == år].sort_values("Beviljade", ascending=False).head(antal)
+def skol_beslut_bar(df, år, antal=10, highlight=None):
+    resultat = df[df["År"] == år].sort_values("Beviljade", ascending=False).head(antal)
 
     fig = go.Figure()
 
