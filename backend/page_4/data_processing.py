@@ -14,22 +14,22 @@ df_2023["År"] = 2023
 df_2022["År"] = 2022
 
 
-df_2024_filter = db.query("""--sql
+df_2024_filtered = db.query("""--sql
          SELECT År,"Utbildningsanordnare administrativ enhet",Utbildningsområde ,beslut,Kommun, Län, 
          FROM df_2024
          """).df()
-df_2023_filter = db.query("""--sql
+df_2023_filtered = db.query("""--sql
          SELECT År,"Utbildningsanordnare administrativ enhet" ,Utbildningsområde,beslut,Kommun, Län
          FROM df_2023
          """).df()
-df_2022_filter = db.query("""--sql
+df_2022_filtered = db.query("""--sql
          SELECT År,"Utbildningsanordnare administrativ enhet" ,Utbildningsområde,beslut,Kommun, län
          FROM df_2022
          """).df()
-df_combined = pd.concat([df_2022_filter, df_2023_filter, df_2024_filter], ignore_index=True)
+df_combined = pd.concat([df_2022_filtered, df_2023_filtered, df_2024_filtered], ignore_index=True)
 
 
-skola_beviljade = db.query("""--sql
+approved_schools = db.query("""--sql
     SELECT 
         År,"Utbildningsanordnare administrativ enhet" AS Skola,
         COUNT(*) FILTER (WHERE Beslut = 'Beviljad') AS Beviljade,
@@ -39,7 +39,7 @@ skola_beviljade = db.query("""--sql
     ORDER BY Beviljade DESC
 """).to_df()
 
-resultat_all = db.query("""--sql
+all_results = db.query("""--sql
     SELECT 
         År,
         Utbildningsområde,
@@ -49,7 +49,7 @@ resultat_all = db.query("""--sql
     GROUP BY År, Utbildningsområde
 """).to_df()
 
-skol_resultat_all = db.query("""--sql
+all_school_results = db.query("""--sql
     SELECT 
         År,
         "Utbildningsanordnare administrativ enhet" AS Skola,
@@ -61,18 +61,18 @@ skol_resultat_all = db.query("""--sql
 """).to_df()
 
 
-unika_skolor = []
-def hitta_standardnamn(namn):
-    match = get_close_matches(namn, unika_skolor, n=1, cutoff=0.8)
+unique_schools = []
+def find_standard_name(namn):
+    match = get_close_matches(namn, unique_schools, n=1, cutoff=0.8)
     if match:
         return match[0]
     else:
-        unika_skolor.append(namn)
+        unique_schools.append(namn)
         return namn
 
-skol_resultat_all["StandardSkola"] = skol_resultat_all["Skola"].apply(hitta_standardnamn)
+all_school_results["StandardSkola"] = all_school_results["Skola"].apply(find_standard_name)
 
-grupperad_df = db.query("""--sql
+grouped_df = db.query("""--sql
     SELECT *
     FROM (
         SELECT 
@@ -81,7 +81,7 @@ grupperad_df = db.query("""--sql
             SUM(Beviljade) AS Beviljade,
             SUM(Avslag) AS Avslag,
             ROW_NUMBER() OVER (PARTITION BY År ORDER BY SUM(Beviljade) DESC) AS rn
-        FROM skol_resultat_all
+        FROM all_school_results
         GROUP BY StandardSkola, År
         Order by År, Beviljade DESC
     )
