@@ -13,9 +13,9 @@ def on_area_change(state):
 
 with tgb.Page() as page_3:
     with tgb.part(class_name="container card"):
-        with tgb.part(class_name="container card"):
-            tgb.navbar()
-        with tgb.part():
+        with tgb.part(class_name="container"):
+            tgb.navbar(class_name="margin-center")
+        with tgb.part(class_name="text-align-center"):
             tgb.text("# Analyser om ansökningsomgång för studerande", mode="md")
             tgb.selector(
                 lov=area_list,
