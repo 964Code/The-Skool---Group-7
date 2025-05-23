@@ -8,6 +8,9 @@ value_slider = 10
 skolor = ["Visa alla"] + grupperad_df["StandardSkola"].unique().tolist()
 selected_utbildning = "Visa alla"
 
+approved_class = "kpi-value"
+rejected_class = "kpi-value"
+
 total_applys = 0
 total_approved = 0
 total_procent = 0
@@ -36,6 +39,8 @@ def on_value_change(state: State, var_name: str, var_value):
     
     state.total_applys, state.total_approved, state.total_procent, state.total_rejected = kpi_exract(grupperad_df,state.selected_utbildning, state.value)
 
+    state.approved_class = "kpi-trend_positve" if state.total_approved > 0 else "kpi-trend_negative"
+    state.rejected_class = "kpi-trend_negative" if state.total_rejected > 0 else "kpi-trend_positve"
 
 def on_filter_button_click(state: State):
     on_value_change(state, "value", state.value)
@@ -52,19 +57,19 @@ with tgb.Page() as page_4:
                      tgb.selector("{value}", lov="2024;2023;2022",dropdown=True)
                      tgb.text("Välj skola")
                      tgb.selector("{selected_utbildning}", lov=skolor, dropdown=True, multiple=False, filter=True)
-                     tgb.slider(value="{value_slider}", min=1, max=len(grupperad_df.head(50)), continuous=False)
+                     tgb.slider(value="{value_slider}", min=1, max=len(grupperad_df.head(100)), continuous=False)
                      tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
                 with tgb.part(class_name="") as column_chart:
                     tgb.chart(figure="{antal_beslut_df}")
             with tgb.layout(class_name="kpi-wrapper"):
                 with tgb.part(class_name="kpi-container"):
-                    tgb.text("{total_applys}",class_name="kpi-value")
+                    tgb.text("{total_applys}",class_name="kpi-trend_natural")
                     tgb.text("Totala ansökningar", class_name="kpi-title")
                 with tgb.part(class_name="kpi-container"):
-                    tgb.text("{total_approved}",class_name="kpi-value")
+                    tgb.text("{total_approved}",class_name="{approved_class}")
                     tgb.text("Antal Beviljade",class_name="kpi-title")
                 with tgb.part(class_name="kpi-container"):
-                    tgb.text("{total_rejected}",class_name="kpi-value")
+                    tgb.text("{total_rejected}",class_name="{rejected_class}")
                     tgb.text("Antal Avslag",class_name="kpi-title")
                 with tgb.part(class_name="kpi-container"):
                     tgb.text("{total_procent}%",class_name="kpi-value")

@@ -21,22 +21,22 @@ df_2023["År"] = 2023
 df_2022["År"] = 2022
 
 
-df_2024_filter = db.query("""--sql
+df_2024_filtered = db.query("""--sql
          SELECT År,"Utbildningsanordnare administrativ enhet",Utbildningsområde ,beslut,Kommun, Län, 
          FROM df_2024
          """).df()
-df_2023_filter = db.query("""--sql
+df_2023_filtered = db.query("""--sql
          SELECT År,"Utbildningsanordnare administrativ enhet" ,Utbildningsområde,beslut,Kommun, Län
          FROM df_2023
          """).df()
-df_2022_filter = db.query("""--sql
+df_2022_filtered = db.query("""--sql
          SELECT År,"Utbildningsanordnare administrativ enhet" ,Utbildningsområde,beslut,Kommun, län
          FROM df_2022
          """).df()
-df_combined = pd.concat([df_2022_filter, df_2023_filter, df_2024_filter], ignore_index=True)
+df_combined = pd.concat([df_2022_filtered, df_2023_filtered, df_2024_filtered], ignore_index=True)
 
 
-skola_beviljade = db.query("""--sql
+school_approved = db.query("""--sql
     SELECT 
         År,"Utbildningsanordnare administrativ enhet" AS Skola,
         COUNT(*) FILTER (WHERE Beslut = 'Beviljad') AS Beviljade,
@@ -46,7 +46,7 @@ skola_beviljade = db.query("""--sql
     ORDER BY Beviljade DESC
 """).to_df()
 
-resultat_all = db.query("""--sql
+result_all = db.query("""--sql
     SELECT 
         År,
         Utbildningsområde,
@@ -56,7 +56,7 @@ resultat_all = db.query("""--sql
     GROUP BY År, Utbildningsområde
 """).to_df()
 
-beviljandegrad_df = db.query("""--sql
+approval_rate_df = db.query("""--sql
     SELECT
         År,
         Utbildningsområde,
@@ -68,7 +68,7 @@ beviljandegrad_df = db.query("""--sql
     ORDER BY År,"beviljandegrad (%)" DESC
 """).df()
 
-beviljandegrad_df.head()
+approval_rate_df.head()
 
 
 df_region_total = db.query("""--sql
@@ -81,7 +81,7 @@ df_region_total = db.query("""--sql
     ORDER BY År ASC, Beviljade DESC
 """).to_df()
 
-df_regions_beviljade = db.query("""--sql
+df_regions_approved = db.query("""--sql
              SELECT län, CAST(COUNT_IF(beslut = 'Beviljad') as INTEGER) as Beviljade
              FROM df_combined
              WHERE län != 'Flera kommuner'
@@ -89,7 +89,7 @@ df_regions_beviljade = db.query("""--sql
              ORDER BY Beviljade DESC, län ASC
              """).df()
 
-df_regions_avslag = db.query("""--sql
+df_regions_rejected = db.query("""--sql
              SELECT län, CAST(COUNT_IF(beslut = 'Avslag') as INTEGER) as Avslag
              FROM df_combined
              WHERE län != 'Flera kommuner'
@@ -114,5 +114,5 @@ for region in df_region_total["Län"]:
         region_code_map.append(None)
 
 
-log_approved = np.log(df_regions_beviljade["Beviljade"]+1)
-log_avslag = np.log(df_regions_avslag["Avslag"]+1)
+log_approved = np.log(df_regions_approved["Beviljade"]+1)
+log_rejected = np.log(df_regions_rejected["Avslag"]+1)
