@@ -4,16 +4,15 @@ import pandas as pd
 
 def line_plot_stud(df, areas):
     df_melted = df.melt(id_vars=["År"], var_name="Inriktning", value_name="Studerande")
-    resultat = df_melted[df_melted["Inriktning"].isin(areas)]
 
     avg_per_year = (
-        resultat.groupby("År")["Studerande"]
+        df_melted.groupby("År")["Studerande"]
         .mean()
         .reset_index()
-        .rename(columns={"Studerande": "Studerande"})
     )
     avg_per_year["Inriktning"] = "Genomsnitt"
 
+    resultat = df_melted[df_melted["Inriktning"].isin(areas)]
 
     resultat_with_avg = pd.concat([resultat, avg_per_year], ignore_index=True)
 
