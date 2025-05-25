@@ -51,18 +51,18 @@ def on_filter_button_click(state: State):
 
 with tgb.Page() as page_2:
     with tgb.part(class_name="container card"):
-        with tgb.part(class_name="container card"):
-            tgb.navbar()
-        with tgb.part():
+        with tgb.part(class_name="container"):
+            tgb.navbar(class_name="margin-center")
+        with tgb.part(class_name="text-align-center"):
             tgb.text("# Analyser om ansökningsomgång för Program", mode="md")
-            with tgb.layout(columns="1 3"):
-                with tgb.part(class_name="container card") as column_chart:
+            with tgb.layout(columns="1 3", gap="32px"):
+                with tgb.part(class_name="aside-controls") as column_chart:
                      tgb.text("Välj år som gafen ska visa")
                      tgb.selector("{year_selected}", lov="2024;2023;2022",dropdown=True)
                      tgb.text("Välj utbildningsområde")
                      tgb.selector("{selected_field}", lov=educational_fields, dropdown=True, multiple=False, filter=True)
                      tgb.slider(value="{value_slider}", min=1, max=len(educational_fields), continuous=False)
-                     tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
+                     tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain", width="100%")
                 with tgb.part(class_name="") as column_chart:
                     tgb.chart(figure="{decision_count_chart}")
             with tgb.layout(columns="1 3"):

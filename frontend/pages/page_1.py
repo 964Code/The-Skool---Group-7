@@ -76,45 +76,45 @@ def on_button_click(state: State):
 
 with tgb.Page() as page_1:
     with tgb.part(class_name="container card"):
-        with tgb.part(class_name="container card"):
-            tgb.navbar()
-        with tgb.part():
+        with tgb.part(class_name="container"):
+            tgb.navbar(class_name="margin-center")
+        with tgb.part(class_name="text-align-center"):
             tgb.text("# Analyser om ansökningsomgång för Kurser", mode="md")
-        with tgb.layout(columns="1 3"):
-            with tgb.part(class_name="card") as column_filters:
+        with tgb.layout(columns="1 3", gap="32px"):
+            with tgb.part(class_name="aside-controls") as column_filters:
                 tgb.text("Increase/decrease results")
                 tgb.slider("{slider_val_one}", min=1, max=10, continuous=False)
                 tgb.text("Välj skola")
                 tgb.selector("{selected_utbildning}", lov=skolor, dropdown=True, multiple=False, filter=True)
-                tgb.button("FILTRERA DATA", on_action=on_button_click, class_name="plain")
+                tgb.button("FILTRERA DATA", on_action=on_button_click, class_name="plain", width="100%")
             with tgb.part() as column_chart:
                 tgb.chart(figure="{bar}")
-        with tgb.part():
+        with tgb.part(class_name="text-align-center"):
                 tgb.text("## KPI efter anordnare 2024", mode="md")
                 tgb.chart(figure="{top_approved_area}")
-        with tgb.part():
+        with tgb.part(class_name="text-align-center"):
                 tgb.text("## KPI efter anordnare 2024", mode="md")
-        with tgb.layout(columns="1 3", class_name="container card"):
-                with tgb.part() as column_chart:
+        with tgb.layout(columns="1 3", gap="32px"):
+                with tgb.part(class_name="aside-controls") as column_chart:
                     tgb.text("Utbildningsområde")
                     tgb.selector("{utbildning_value}", lov=utbildning_list, dropdown=True, multiple=False, on_change=on_utbildning_change,filter=True)
-                with tgb.part() as column_chart:
                     tgb.text("Skola / Anordnare")
                     tgb.selector("{anordnare_value}",lov="{anordnare_list}",dropdown=True,multiple=False,filter=True)
-                    tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain")
-        with tgb.layout(class_name="kpi-wrapper",):            
-            with tgb.part(class_name="kpi-container"):
-                 tgb.text("{total_kurser}",class_name="kpi-trend_natural")
-                 tgb.text("Totalt ansökta kurser",class_name="kpi-title")
-            with tgb.part(class_name="kpi-container "):
-                 tgb.text("{antal_beviljade_kurser}",class_name="{approved_class}")
-                 tgb.text("Beviljade kurser",class_name="kpi-title")
-            with tgb.part(class_name="kpi-container "):
-                 tgb.text("{beviljade_platser}", class_name="{approved_class}")
-                 tgb.text("Beviljade platser",class_name="kpi-title")
-            with tgb.part(class_name="kpi-container"):
-                 tgb.text(" {procent_beviljade}%", class_name="kpi-value")
-                 tgb.text("Beviljandegrad",class_name="kpi-title")
+                    tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain", width="100%")
+                with tgb.part(class_name="kpi-part") as column_chart:
+                    with tgb.layout(class_name="kpi-wrapper",):            
+                        with tgb.part(class_name="kpi-container"):
+                            tgb.text("{total_kurser}",class_name="kpi-trend_natural")
+                            tgb.text("Totalt ansökta kurser",class_name="kpi-title")
+                        with tgb.part(class_name="kpi-container "):
+                            tgb.text("{antal_beviljade_kurser}",class_name="{approved_class}")
+                            tgb.text("Beviljade kurser",class_name="kpi-title")
+                        with tgb.part(class_name="kpi-container "):
+                            tgb.text("{beviljade_platser}", class_name="{approved_class}")
+                            tgb.text("Beviljade platser",class_name="kpi-title")
+                        with tgb.part(class_name="kpi-container"):
+                            tgb.text(" {procent_beviljade}%", class_name="kpi-value")
+                            tgb.text("Beviljandegrad",class_name="kpi-title")
 
 
 
