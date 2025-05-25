@@ -44,9 +44,9 @@ def decision_count_bar(df, year, count=10, highlight=None):
         template='simple_white',
         showlegend=False,
         yaxis=dict(autorange="reversed"),
-        title_font=dict(family="Times New Roman", size=30, weight="bold"),
-        font=dict(family="Times New Roman", size=15),
-        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold"),
+        title_font=dict(family="Sans-serif", size=23, weight="bold"),
+        font=dict(family="Sans-serif", size=15),
+        yaxis_tickfont=dict(family="Sans-serif", size=15, weight="normal"),
         annotations=[dict(
             x=-0.7,
             y=-0.2,
@@ -95,9 +95,9 @@ def approval_rate_bar(df, year,count=10,highlight=None):
                 linecolor="lightgray",
                 showticklabels=True,
                 ),
-        title_font=dict(family="Times New Roman", size=30, weight="bold", color="black",),
-        font=dict(family="Times New Roman", size=15, color="black",),
-        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold", color="black"),
+        title_font=dict(family="Sans-serif", size=30, weight="bold", color="black",),
+        font=dict(family="Sans-serif", size=15, color="black",),
+        yaxis_tickfont=dict(family="Sans-serif", size=15, weight="normal", color="black"),
         annotations=[dict(
             x=-0.7,
             y=-0.2,
@@ -150,7 +150,7 @@ def map_approved_programs(df,json_data,region_code_map,log_approved, year):
                     <br>3. Skåne""",
             x=0.06,
             y=0.75,
-            font=dict(size=15,family="Times New Roman"))
+            font=dict(size=15,family="Sans-serif"))
     )
 
 
@@ -195,7 +195,7 @@ def map_rejected_programs(df, year,json_data,region_code_map,log_rejected):
                     <br>3. Skåne""",
             x=0.06,
             y=0.75,
-            font=dict(size=15,family="Times New Roman"),)
+            font=dict(size=15,family="Sans-serif"),)
     )
 
 
