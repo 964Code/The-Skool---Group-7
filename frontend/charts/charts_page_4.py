@@ -2,28 +2,28 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-def skol_beslut_bar(df, år, antal=10, highlight=None):
-    resultat = df[df["År"] == år].sort_values("Beviljade", ascending=False).head(antal)
+def school_decision_bar(df, year, count=10, highlight=None):
+    resultat = df[df["År"] == year].sort_values("Beviljade", ascending=False).head(count)
 
     fig = go.Figure()
 
-    beviljade_colors = []
-    avslag_colors = []
+    approved_colors = []
+    rejected_colors = []
 
-    for område in resultat["StandardSkola"]:
-        if highlight is None or highlight == "Visa alla" or område == highlight:
-            beviljade_colors.append("rgba(74, 140, 232, 1)") 
-            avslag_colors.append("rgba(211, 211, 211, 1)")
+    for area in resultat["StandardSkola"]:
+        if highlight is None or highlight == "Visa alla" or area == highlight:
+            approved_colors.append("rgba(74, 140, 232, 1)") 
+            rejected_colors.append("rgba(211, 211, 211, 1)")
         else:
-            beviljade_colors.append("rgba(74, 140, 232, 0.3)") 
-            avslag_colors.append("rgba(211, 211, 211, 0.3)")
+            approved_colors.append("rgba(74, 140, 232, 0.3)") 
+            rejected_colors.append("rgba(211, 211, 211, 0.3)")
 
     fig.add_trace(go.Bar(
         y=resultat['StandardSkola'],
         x=resultat['Beviljade'],
         name='Beviljade',
         orientation='h',
-        marker=dict(color=beviljade_colors),
+        marker=dict(color=approved_colors),
         hovertemplate="<b>%{y}</b><br> Beviljade <br> Antal beslut: %{x} <br><extra></extra>"
     ))
 
@@ -32,13 +32,13 @@ def skol_beslut_bar(df, år, antal=10, highlight=None):
         x=resultat['Avslag'],
         name='Avslag',
         orientation='h',
-        marker=dict(color=avslag_colors),
+        marker=dict(color=rejected_colors),
         hovertemplate="<b>%{y}</b><br> Avslag <br> Antal beslut: %{x} <br><extra></extra>"
     ))
 
     fig.update_layout(
         barmode='stack',
-        title=f'Beviljade och avslagna utbildningar per utbildningsanordnare ({år})',
+        title=f'Beviljade och avslagna utbildningar per utbildningsanordnare ({year})',
         xaxis_title='Antal',
         yaxis_title='Skola',
         template='simple_white',
