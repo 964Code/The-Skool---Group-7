@@ -19,6 +19,7 @@ with tgb.Page() as page_3:
             tgb.navbar(class_name="margin-center")
         with tgb.part(class_name="text-align-center"):
             tgb.text("### Analyser om ansökningsomgång för studerande", mode="md")
+            tgb.text("Välj utbildningsområden")
             tgb.selector(
                 lov=area_list,
                 dropdown=True,
