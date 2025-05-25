@@ -82,7 +82,7 @@ with tgb.Page() as page_1:
             tgb.text("# Analyser om ansökningsomgång för Kurser", mode="md")
         with tgb.layout(columns="1 3", gap="32px"):
             with tgb.part(class_name="aside-controls") as column_filters:
-                tgb.text("Increase/decrease results")
+                tgb.text("Öka/Minska resultat")
                 tgb.slider("{slider_val_one}", min=1, max=10, continuous=False)
                 tgb.text("Välj skola")
                 tgb.selector("{selected_utbildning}", lov=skolor, dropdown=True, multiple=False, filter=True)
