@@ -106,3 +106,37 @@ button.plain {
     align-items: center;
 }
 
+.text-media {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.text-media h4 {
+    margin-top: 0;
+}
+
+.text-media.reverse {
+    flex-direction: row-reverse;
+}
+
+.text-media.reverse .text-media-content {
+    text-align: left;
+}
+
+.text-media img {
+    height: 200px;
+    width: 400px !important;
+}
+.text-media-content {
+    padding: 0 24px;
+    text-align: right;
+    width: 50%;
+}
+
+.padding-custom {
+    padding: 0 24px;
+}
