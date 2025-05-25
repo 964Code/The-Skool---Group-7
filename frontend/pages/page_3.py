@@ -7,7 +7,7 @@ from utils.constants import IMAGE_DIRECTORY
 
 area_list = df_stud.columns.to_list()[1:]
 
-selected_area = ["Totalt", "Data/It"]
+selected_area = ["Data/It"]
 line_graph_stud = line_plot_stud(df_stud, selected_area)
 
 def on_area_change(state):
