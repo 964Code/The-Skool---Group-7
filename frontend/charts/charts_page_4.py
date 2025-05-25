@@ -44,9 +44,9 @@ def school_decision_bar(df, year, count=10, highlight=None):
         template='simple_white',
         showlegend=False,
         yaxis=dict(autorange="reversed"),
-        title_font=dict(family="Times New Roman", size=25, weight="bold"),
-        font=dict(family="Times New Roman", size=15),
-        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold"),
+        title_font=dict(family="Sans-serif", size=23, weight="bold"),
+        font=dict(family="Sans-serif", size=15),
+        yaxis_tickfont=dict(family="Sans-serif", size=15, weight="normal"),
         annotations=[dict(
             x=-0.7,
             y=-0.2,

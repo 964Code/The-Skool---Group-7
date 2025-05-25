@@ -50,7 +50,7 @@ with tgb.Page() as page_4:
         with tgb.part(class_name="container"):
             tgb.navbar(class_name="margin-center")
         with tgb.part(class_name="text-align-center"):
-            tgb.text("# Analyser om ansökningsomgång för Anordnare", mode="md")
+            tgb.text("### Analyser om ansökningsomgång för Anordnare", mode="md")
             with tgb.layout(columns="1 3", gap="32px"):
                 with tgb.part(class_name="aside-controls") as column_chart:
                      tgb.text("Välj år som gafen ska visa")

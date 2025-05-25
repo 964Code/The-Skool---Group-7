@@ -6,7 +6,7 @@ with tgb.Page() as home_page:
         with tgb.part(class_name="container"):
             tgb.navbar(class_name="margin-center")
         with tgb.part(class_name="text-align-center padding-custom"):
-            tgb.text("## Välkommen till YH Home 2024", mode="md")
+            tgb.text("### Välkommen till YH Home 2024", mode="md")
             tgb.text(
                 "YH Dash 2024 är ett interaktivt verktyg som visualiserar statistik och insikter kring Yrkeshögskoleutbildningar (YH), med särskilt fokus på ansökningsomgångarna under 2024.",
                 mode="md"

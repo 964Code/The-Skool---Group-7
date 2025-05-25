@@ -43,11 +43,11 @@ def plot_bar(df, antal=10, highlight=None):
         template='simple_white',
         showlegend=False,
         yaxis=dict(autorange="reversed"),
-        title_font=dict(family="Times New Roman", size=25, weight="bold"),
-        font=dict(family="Times New Roman", size=15),
-        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold"),
+        title_font=dict(family="Sans-serif", size=23, weight="bold"),
+        font=dict(family="Sans-serif", size=12),
+        yaxis_tickfont=dict(family="Sans-serif", size=12, weight="normal"),
         annotations=[dict(
-            x=-0.7,
+            x=-0.9,
             y=-0.2,
             xref="paper",
             yref="paper",
@@ -162,9 +162,9 @@ def bar_filter_approved_areas(df, number=0):
     fig.update_layout(
         yaxis={"categoryorder": "total ascending"},
         plot_bgcolor = "white",
-        title_font=dict(family="Times New Roman", size=30, weight="bold", color="black",),
-        font=dict(family="Times New Roman", size=15, color="black",),
-        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold", color="black"),
+        title_font=dict(family="Sans-serif", size=23, weight="bold", color="black",),
+        font=dict(family="Sans-serif", size=15, color="black",),
+        yaxis_tickfont=dict(family="Sans-serif", size=15, weight="normal", color="black"),
         )
 
     return fig

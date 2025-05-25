@@ -29,10 +29,10 @@ def line_plot_stud(df, areas):
 
     fig.update_layout(
         plot_bgcolor="white",
-        title_font=dict(family="Times New Roman", size=30, weight="bold", color="black"),
-        font=dict(family="Times New Roman", size=15, color="black"),
-        yaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold", color="black"),
-        xaxis_tickfont=dict(family="Times New Roman", size=15, weight="bold", color="black"),
+        title_font=dict(family="Sans-serif", size=23, weight="bold", color="black"),
+        font=dict(family="Sans-serif", size=15, color="black"),
+        yaxis_tickfont=dict(family="Sans-serif", size=15, weight="bold", color="black"),
+        xaxis_tickfont=dict(family="Sans-serif", size=15, weight="bold", color="black"),
     )
     return fig
 
