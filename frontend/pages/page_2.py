@@ -1,5 +1,4 @@
 import taipy.gui.builder as tgb
-from taipy.gui import State
 from backend.page_2.data_processing import result_all, approval_rate_df, df_region_total,json_data,region_code_map,log_approved,log_rejected
 from frontend.charts.charts_page_2 import decision_count_bar, approval_rate_bar, map_approved_programs, map_rejected_programs
 
@@ -61,6 +60,7 @@ with tgb.Page() as page_2:
                      tgb.selector("{year_selected}", lov="2024;2023;2022",dropdown=True)
                      tgb.text("Välj utbildningsområde")
                      tgb.selector("{selected_field}", lov=educational_fields, dropdown=True, multiple=False, filter=True)
+                     tgb.text("Öka/Minska resultat")
                      tgb.slider(value="{value_slider}", min=1, max=len(educational_fields), continuous=False)
                      tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain", width="100%")
                 with tgb.part(class_name="") as column_chart:
