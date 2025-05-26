@@ -1,4 +1,5 @@
 import taipy.gui.builder as tgb
+from taipy.gui import State
 from backend.page_2.data_processing import result_all, approval_rate_df, df_region_total,json_data,region_code_map,log_approved,log_rejected
 from frontend.charts.charts_page_2 import decision_count_bar, approval_rate_bar, map_approved_programs, map_rejected_programs
 
