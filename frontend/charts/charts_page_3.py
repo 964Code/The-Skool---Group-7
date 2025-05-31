@@ -22,10 +22,10 @@ def line_plot_stud(df, areas):
         y="Studerande",
         color="Inriktning",
         title="Studerande över tid per utbildningsinriktning",
-        markers=True,
+        markers=False, 
     )
 
-    fig.update_traces(line=dict(width=4, dash="dot"), marker=dict(symbol="circle", size=8))
+    fig.update_traces(line=dict(width=2.3, dash="solid"), marker=dict(symbol="circle", size=4))
 
     fig.update_layout(
         plot_bgcolor="white",

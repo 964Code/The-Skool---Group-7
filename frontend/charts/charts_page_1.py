@@ -1,37 +1,37 @@
 import plotly.express as px
 import plotly.graph_objects as go
 
-def plot_bar(df, antal=10, highlight=None):
-    resultat = df.sort_values("antal beviljade", ascending=False).head(antal)
+def plot_bar(df, amount=10, highlight=None):
+    result = df.sort_values("antal beviljade", ascending=False).head(amount)
 
     fig = go.Figure()
 
-    beviljade_colors = []
-    avslag_colors = []
+    approved_colors = []
+    denied_colors = []
 
-    for område in resultat["anordnare"]:
-        if highlight is None or highlight == "Visa alla" or område == highlight:
-            beviljade_colors.append("rgba(74, 140, 232, 1)") 
-            avslag_colors.append("rgba(211, 211, 211, 1)")
+    for area in result["anordnare"]:
+        if highlight is None or highlight == "Visa alla" or area == highlight:
+            approved_colors.append("rgba(74, 140, 232, 1)") 
+            denied_colors.append("rgba(211, 211, 211, 1)")
         else:
-            beviljade_colors.append("rgba(74, 140, 232, 0.3)") 
-            avslag_colors.append("rgba(211, 211, 211, 0.3)")
+            approved_colors.append("rgba(74, 140, 232, 0.3)") 
+            denied_colors.append("rgba(211, 211, 211, 0.3)")
 
     fig.add_trace(go.Bar(
-        y=resultat['anordnare'],
-        x=resultat['antal beviljade'],
+        y=result['anordnare'],
+        x=result['antal beviljade'],
         name='antal beviljade',
         orientation='h',
-        marker=dict(color=beviljade_colors),
+        marker=dict(color=approved_colors),
         hovertemplate="<b>%{y}</b><br> Beviljade <br> Antal beslut: %{x} <br><extra></extra>"
     ))
 
     fig.add_trace(go.Bar(
-        y=resultat['anordnare'],
-        x=resultat['antal avslag'],
+        y=result['anordnare'],
+        x=result['antal avslag'],
         name='antal avslag',
         orientation='h',
-        marker=dict(color=avslag_colors),
+        marker=dict(color=denied_colors),
         hovertemplate="<b>%{y}</b><br> Avslag <br> Antal beslut: %{x} <br><extra></extra>"
     ))
 
@@ -58,35 +58,6 @@ def plot_bar(df, antal=10, highlight=None):
 
     return fig
 
-# def plot_bar(df):
-#     df_long = df.head(5).melt(
-#     id_vars="anordnare",
-#     value_vars=["antal beviljade", "antal avslag"],
-#     var_name="Beslut",
-#     value_name="Antal",
-# )
-
-#     # Create the bar chart
-#     fig = px.bar(
-#         df_long,
-#         x="Antal",
-#         y="anordnare",
-#         color="Beslut",
-#         orientation="h",
-#         title="Antal beviljade/avslag ",
-#     )
-
-#     fig.update_layout(
-#         yaxis={"categoryorder": "total ascending"},
-#         xaxis_title="Antal",
-#         yaxis_title="Anordnare",
-#         legend_title="Beslut",
-#         bargap=0.2,
-#     )
-
-#     return fig
-
-# reg df, not filtered. 
 def bar_approval(df):
     beslut_counts = df["Beslut"].value_counts().reset_index()
     beslut_counts.columns = ["Beslut", "Antal"]
