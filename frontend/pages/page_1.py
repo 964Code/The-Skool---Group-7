@@ -39,7 +39,7 @@ def slider_on_change(state: State):
     state.top_approved_area = bar_filter_approved_areas(df_courses, state.slider_val_one)
     state.bar = plot_bar(
     filtered_df,
-    antal=state.slider_val_one,
+    amount=state.slider_val_one,
     highlight=state.selected_utbildning)
 
 def on_filter_button_click(state):

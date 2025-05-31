@@ -1,8 +1,8 @@
 import plotly.express as px
 import plotly.graph_objects as go
 
-def plot_bar(df, antal=10, highlight=None):
-    result = df.sort_values("antal beviljade", ascending=False).head(antal)
+def plot_bar(df, amount=10, highlight=None):
+    result = df.sort_values("antal beviljade", ascending=False).head(amount)
 
     fig = go.Figure()
 

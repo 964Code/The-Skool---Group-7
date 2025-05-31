@@ -271,3 +271,7 @@ button.plain {
 .MuiAutocomplete-option[aria-selected="true"]:hover {
     background-color: #d0e5ff !important;
 }
+
+.MuiSlider-valueLabel {
+    background-color: rgb(197, 221, 242);
+}
