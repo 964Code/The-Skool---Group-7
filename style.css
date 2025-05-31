@@ -221,11 +221,6 @@ button.plain {
     background-color: #d0e5ff !important; /* Slightly darker hover */
 }
 
-/* Optional: control focus or ripple */
-.MuiButtonBase-root:focus {
-    outline: none;
-    background-color: #e0efff;
-}
 
 
 /* Navbar background */
@@ -273,5 +268,5 @@ button.plain {
 }
 
 .MuiSlider-valueLabel {
-    background-color: rgb(197, 221, 242);
+    background-color: rgb(212, 228, 243);
 }
