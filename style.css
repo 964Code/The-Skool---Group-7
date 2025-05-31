@@ -80,7 +80,6 @@ body {
 .aside-controls {
     position: relative;
     padding: 16px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -94,7 +93,7 @@ body {
     transform: translateY(-50%);
     width: 1px;
     height: 50%;
-    background-color: var(--color-primary);
+    background-color: #4a8ce8;
 }
 
 button.plain {
@@ -139,4 +138,136 @@ button.plain {
 
 .padding-custom {
     padding: 0 24px;
+}
+.taipy-slider span{
+    color: #4a8ce8;
+}
+
+.taipy-button.plain {
+    background-color: #4a8ce8;
+    border:#4a8ce8 1px solid;
+}
+
+
+/* custom.css */
+
+/* Scrollbar styles for Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4a8ce8;  /* Your custom color */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3a7ad0;  /* Darker shade for hover */
+}
+
+/* Firefox scrollbar styles */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #4a8ce8 #f1f1f1;
+}
+
+/* custom.css */
+
+/* Base input style */
+.MuiInputBase-root {
+    color: black;
+}
+
+/* Outlined input border color */
+.MuiOutlinedInput-root {
+    border-color: #4a8ce8;
+}
+
+/* Override hover and focus */
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #4a8ce8 !important;
+}
+
+/* General focus state */
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #4a8ce8;
+}
+
+.MuiOutlinedInput-notchedOutline {
+    border-color: #ccc;
+}
+
+/* Autocomplete or adorned-end inputs */
+.MuiInputBase-adornedEnd {
+    color: #4a8ce8;
+}
+
+/* custom.css */
+
+/* Lighter blue for selected menu items */
+.MuiMenuItem-root.Mui-selected,
+.MuiMenuItem-gutters.Mui-selected {
+    background-color: #e0efff !important; /* Light blue background */
+    color: #4a8ce8 !important;            /* Your main blue for text */
+}
+
+/* Hover state for selected items */
+.MuiMenuItem-root.Mui-selected:hover,
+.MuiMenuItem-gutters.Mui-selected:hover {
+    background-color: #d0e5ff !important; /* Slightly darker hover */
+}
+
+/* Optional: control focus or ripple */
+.MuiButtonBase-root:focus {
+    outline: none;
+    background-color: #e0efff;
+}
+
+
+/* Navbar background */
+.tp-navbar {
+    background-color: #4a8ce8 !important;
+}
+
+
+/* Navbar text items */
+.tp-navbar a {
+    color: white !important;
+    font-weight: 500;
+}
+
+/* Hover effect for navbar items */
+.tp-navbar a:hover {
+    background-color: #3a7ad0 !important;  /* Slightly darker blue */
+    color: white !important;
+}
+
+/* Active or selected item */
+.tp-navbar a.active,
+.tp-navbar a.tp-active {
+    background-color: #2e6dc0 !important;
+    color: white !important;
+}
+
+.MuiTabs-indicator {
+    background-color: #4a8ce8 !important;
+}
+
+.MuiTab-root.Mui-selected {
+    color: #4a8ce8 !important;
+}
+
+/* Override selected option in Autocomplete dropdown */
+.MuiAutocomplete-option[aria-selected="true"] {
+    background-color: #e0efff !important; /* Your light blue */
+    color: #4a8ce8 !important;
+}
+
+/* Optional: blue on hover when selected */
+.MuiAutocomplete-option[aria-selected="true"]:hover {
+    background-color: #d0e5ff !important;
 }
