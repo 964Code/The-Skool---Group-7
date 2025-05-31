@@ -1,12 +1,10 @@
 import pandas as pd
 from pathlib import Path
 import duckdb
-
-## For relative path
 from utils.constants import DATA_DIRECTORY
 
 
-df_kurser = pd.read_excel(
+df_courses = pd.read_excel(
     DATA_DIRECTORY / "resultat-2024-for-kurser-inom-yh.xlsx", sheet_name="Lista ansökningar"
 ).drop(
     columns=[
@@ -19,8 +17,6 @@ df_kurser = pd.read_excel(
         "Antal FA-regioner",
     ])
 
-
-#! Query, if not complex could be fixed with pandas. 
 
 # Regular DF
 def approved_courses_filter(df):
@@ -37,9 +33,7 @@ def approved_courses_filter(df):
     ).df()
     return approved_courses
 
-#----------------------------------------------
 
-# Regular DF
 def generate_kpi_df(df):
     kpi_df = duckdb.query(
         """--sql
@@ -58,34 +52,32 @@ def generate_kpi_df(df):
 
     return kpi_df
 
-def filter_kpi_data(df_kpi, utbildningsområde=None, skola=None):
+def filter_kpi_data(df_kpi, education_area=None, school=None):
     df_filtered = df_kpi.copy()
 
-    if utbildningsområde:
-        df_filtered = df_filtered[df_filtered["Utbildningsområde"] == utbildningsområde]
+    if education_area:
+        df_filtered = df_filtered[df_filtered["Utbildningsområde"] == education_area]
 
-    if skola:
-        df_filtered = df_filtered[df_filtered["Anordnare namn"] == skola]
+    if school:
+        df_filtered = df_filtered[df_filtered["Anordnare namn"] == school]
 
     return df_filtered.reset_index(drop=True)
 
+
 def extract_kpis_kurser(df_filtered):
 
-    # Aggregate over all rows in case there are multiple utbildningsområden or skolor
-    antal_kurser = df_filtered["total_kurser"].sum()
-    antal_beviljade_kurser = df_filtered["beviljade_kurser"].sum()
-    antal_beviljade_platser = df_filtered["beviljade_platser"].sum()
-    godkännandeprocent = (
-        (antal_beviljade_kurser / antal_kurser) * 100 if antal_kurser > 0 else 0.0
+    total_courses = df_filtered["total_kurser"].sum()
+    amount_total_approved = df_filtered["beviljade_kurser"].sum()
+    approved_seats = df_filtered["beviljade_platser"].sum()
+    percentage_approved = (
+        (amount_total_approved / total_courses) * 100 if total_courses > 0 else 0.0
     )
 
     return {
-        "antal_kurser": antal_kurser,
-        "antal_beviljade_kurser": int(antal_beviljade_kurser),
-        "antal_beviljade_platser": int(antal_beviljade_platser),
-        "godkännandeprocent": int(godkännandeprocent) if godkännandeprocent == int(godkännandeprocent) else round(godkännandeprocent, 2),
+        "antal_kurser": total_courses,
+        "antal_beviljade_kurser": int(amount_total_approved),
+        "antal_beviljade_platser": int(approved_seats),
+        "godkännandeprocent": int(percentage_approved) if percentage_approved == int(percentage_approved) else round(percentage_approved, 2),
 
     }
 
-
-#----------------------------------------------

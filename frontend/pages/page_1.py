@@ -1,51 +1,52 @@
 import taipy.gui.builder as tgb
 from taipy.gui import State
-from backend.page_1.data_processing import df_kurser
+from backend.page_1.data_processing import df_courses
 from backend.page_1.data_processing import approved_courses_filter, generate_kpi_df, filter_kpi_data, extract_kpis_kurser
 from frontend.charts.charts_page_1 import plot_bar, bar_approval, bar_filter_approved_areas
 
 
 # DF
-filtered_df = approved_courses_filter(df_kurser)
-kpi_df = generate_kpi_df(df_kurser)
+filtered_df = approved_courses_filter(df_courses)
+kpi_df = generate_kpi_df(df_courses)
 
 # Variables & Setters
 slider_val_one = 5
 
 approved_class = "kpi-value"
 
-anordnare_list = []
-anordnare_value = ""
+school_list = []
+school_value = ""
 
-utbildning_list = ["Välj områrde"] + df_kurser["Utbildningsområde"].unique().tolist()
-utbildning_value = "Välj område"
+education_area = ["Välj områrde"] + df_courses["Utbildningsområde"].unique().tolist()
+education_value = "Välj område"
 
-skolor = ["Visa alla"] + filtered_df["anordnare"].unique().tolist()
+schools = ["Visa alla"] + filtered_df["anordnare"].unique().tolist()
 selected_utbildning = "Visa alla"
 
-anordnare_namn = ""
-total_kurser = 0
-antal_beviljade_kurser = 0
-beviljade_platser = 0
-procent_beviljade = 0
+school_name = ""
+total_courses = 0
+amount_total_approved = 0
+approved_seats = 0
+percentage_approved = 0
 
 # Bar
 bar = plot_bar(filtered_df)
-approval_bar = bar_approval(df_kurser)
-top_approved_area = bar_filter_approved_areas(df_kurser, slider_val_one)
+approval_bar = bar_approval(df_courses)
+top_approved_area = bar_filter_approved_areas(df_courses, slider_val_one)
 
 # Functions
 def slider_on_change(state: State):
-    state.top_approved_area = bar_filter_approved_areas(df_kurser, state.slider_val_one)
+    state.top_approved_area = bar_filter_approved_areas(df_courses, state.slider_val_one)
     state.bar = plot_bar(
     filtered_df,
     antal=state.slider_val_one,
     highlight=state.selected_utbildning)
 
 def on_filter_button_click(state):
-    state.anordnare_namn = state.anordnare_value
+    state.school_name = state.school_value
+    
+    filtered_kpi = filter_kpi_data(kpi_df, education_area=state.education_value, school=state.school_value)
 
-    filtered_kpi = filter_kpi_data(kpi_df, utbildningsområde=state.utbildning_value, skola=state.anordnare_value)
 
     if filtered_kpi.empty:
         print("No data found for this filter")
@@ -53,22 +54,22 @@ def on_filter_button_click(state):
         kpis = extract_kpis_kurser(filtered_kpi)
         print("Extracted KPIs:", kpis)
         
-        state.total_kurser = kpis["antal_kurser"]
-        state.antal_beviljade_kurser = kpis["antal_beviljade_kurser"]
-        state.beviljade_platser = kpis["antal_beviljade_platser"]
-        state.procent_beviljade = kpis["godkännandeprocent"]
+        state.total_courses = kpis["antal_kurser"]
+        state.amount_total_approved = kpis["antal_beviljade_kurser"]
+        state.approved_seats = kpis["antal_beviljade_platser"]
+        state.percentage_approved = kpis["godkännandeprocent"]
 
-    state.approved_class = "kpi-trend_positve" if state.antal_beviljade_kurser > 0 else "kpi-trend_negative"
+    state.approved_class = "kpi-trend_positve" if state.amount_total_approved > 0 else "kpi-trend_negative"
 
 
 def on_utbildning_change(state):
-    if state.utbildning_value == "Visa alla" or state.utbildning_value == "Välj område":
-        state.anordnare_list = []
-        state.anordnare_value = ""
+    if state.education_value == "Visa alla" or state.education_value == "Välj område":
+        state.school_list = []
+        state.school_value = ""
     else:
-        filtered = df_kurser[df_kurser["Utbildningsområde"] == state.utbildning_value]
-        state.anordnare_list = ["Visa alla"] + filtered["Anordnare namn"].unique().tolist()
-        state.anordnare_value = "Visa alla"  # Optionally reset selection
+        filtered = df_courses[df_courses["Utbildningsområde"] == state.education_value]
+        state.school_list = ["Visa alla"] + filtered["Anordnare namn"].unique().tolist()
+        state.school_value = "Visa alla" 
 
     
 def on_button_click(state: State):
@@ -85,7 +86,7 @@ with tgb.Page() as page_1:
                 tgb.text("Öka/Minska resultat")
                 tgb.slider("{slider_val_one}", min=1, max=10, continuous=False)
                 tgb.text("Välj skola")
-                tgb.selector("{selected_utbildning}", lov=skolor, dropdown=True, multiple=False, filter=True)
+                tgb.selector("{selected_utbildning}", lov=schools, dropdown=True, multiple=False, filter=True)
                 tgb.button("FILTRERA DATA", on_action=on_button_click, class_name="plain", width="100%")
             with tgb.part() as column_chart:
                 tgb.chart(figure="{bar}")
@@ -97,23 +98,23 @@ with tgb.Page() as page_1:
         with tgb.layout(columns="1 3", gap="32px"):
                 with tgb.part(class_name="aside-controls") as column_chart:
                     tgb.text("Utbildningsområde")
-                    tgb.selector("{utbildning_value}", lov=utbildning_list, dropdown=True, multiple=False, on_change=on_utbildning_change,filter=True)
+                    tgb.selector("{education_value}", lov=education_area, dropdown=True, multiple=False, on_change=on_utbildning_change,filter=True)
                     tgb.text("Skola / Anordnare")
-                    tgb.selector("{anordnare_value}",lov="{anordnare_list}",dropdown=True,multiple=False,filter=True)
+                    tgb.selector("{school_value}",lov="{school_list}",dropdown=True,multiple=False,filter=True)
                     tgb.button("FILTRERA DATA", on_action=on_filter_button_click, class_name="plain", width="100%")
                 with tgb.part(class_name="kpi-part") as column_chart:
                     with tgb.layout(class_name="kpi-wrapper",):            
                         with tgb.part(class_name="kpi-container"):
-                            tgb.text("{total_kurser}",class_name="kpi-trend_natural")
+                            tgb.text("{total_courses}",class_name="kpi-trend_natural")
                             tgb.text("Totalt ansökta kurser",class_name="kpi-title")
                         with tgb.part(class_name="kpi-container "):
-                            tgb.text("{antal_beviljade_kurser}",class_name="{approved_class}")
+                            tgb.text("{amount_total_approved}",class_name="{approved_class}")
                             tgb.text("Beviljade kurser",class_name="kpi-title")
                         with tgb.part(class_name="kpi-container "):
-                            tgb.text("{beviljade_platser}", class_name="{approved_class}")
+                            tgb.text("{approved_seats}", class_name="{approved_class}")
                             tgb.text("Beviljade platser",class_name="kpi-title")
                         with tgb.part(class_name="kpi-container"):
-                            tgb.text(" {procent_beviljade}%", class_name="kpi-value")
+                            tgb.text(" {percentage_approved}%", class_name="kpi-value")
                             tgb.text("Beviljandegrad",class_name="kpi-title")
 
 
